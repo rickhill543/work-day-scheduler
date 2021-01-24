@@ -11,7 +11,6 @@ console.log("Current Time: " + currentTime);
 // checks for a stored array of task information to use, if none exist, a fresh one is created
 var taskArray = JSON.parse(localStorage.getItem("tasks"));
 if (!taskArray) {
-    console.log("A fresh taskArray has been generated");
     taskArray = [
         {
             "id": "hour-9",
@@ -59,11 +58,20 @@ if (!taskArray) {
             "description": ""
         }
     ]
+    console.log("A fresh taskArray has been generated!");
 }
 
 
 // displays the current date in real time
 $("#currentDay").html(moment().format("dddd, MMMM Do"));
+
+
+// displays any saved task descriptions in their proper textareas
+for (i=0;i<taskArray.length;i++) {
+    if (taskArray[i].description) {
+        $("#hour-" + [i+9] + " textarea").val(taskArray[i].description);
+    }
+}
 
 
 // color coding of the time blocks to indicate past present and future times
@@ -76,3 +84,16 @@ for (i=0;i<taskArray.length;i++) {
         $("#hour-" + [i+9] + " textarea").addClass("future");
     }
 }
+
+
+// saves a task description to localstorage on save button event
+$("button").click(function(event){
+    var idClicked = event.target.closest("div").id;
+    for (i=0;i<taskArray.length;i++) {
+        if (taskArray[i].id == idClicked) {
+            taskArray[i].description = $(this).prev("textarea").val().trim();
+            localStorage.setItem("tasks", JSON.stringify(taskArray));
+            console.log("The task '" + taskArray[i].description + "' has been stored in the '" + idClicked + "' time block")
+        }
+    }
+});
