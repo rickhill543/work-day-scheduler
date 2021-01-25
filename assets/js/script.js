@@ -93,7 +93,7 @@ $("button").click(function(event){
         if (taskArray[i].id == idClicked) {
             taskArray[i].description = $(this).prev("textarea").val().trim();
             localStorage.setItem("tasks", JSON.stringify(taskArray));
-            console.log("The task '" + taskArray[i].description + "' has been stored in the '" + idClicked + "' time block")
+            console.log("The task '" + taskArray[i].description + "' has been stored in the '" + idClicked + "' time block");
         }
     }
 });
